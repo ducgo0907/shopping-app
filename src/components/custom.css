@@ -1,0 +1,52 @@
+
+/* body, header ... */
+body{
+    background-color: rgb(238, 235, 235) !important;
+}
+
+/* product */
+.product-item{
+    background-color: white;
+    margin: 0px 0px 6px 6px;
+    cursor: pointer;
+}
+
+.name-product, .description-product, .price-product {
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.btn-product{
+    margin: 0px 5px 5px 0px;
+}
+
+/* show product */
+#image-details{
+    height: 700px;
+    background-color: white;
+}
+
+#wrap-product{
+    background-color: white;
+}
+
+.bar{
+    background-color: white;
+    margin-right: 2px;
+    min-height: 900px;
+}
+
+a{
+    justify-content: center;
+    align-items: center;
+    padding: 9px 5px 0px 0px;
+    text-decoration: none !important;
+}
+
+#create-title{
+    text-align: center;
+}
+
+#vertical-line{
+    border-left: 1px solid rgb(173, 172, 172);
+}
