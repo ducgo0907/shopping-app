@@ -4,6 +4,30 @@ body{
     background-color: rgb(238, 235, 235) !important;
 }
 
+.header-left{
+    display: flex;
+}
+
+.header-middle{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 60% !important;
+}
+
+.header-right{
+    text-align: right;
+}
+
+.header{
+    display: flex;
+    width: auto;
+}
+
+.login-button{
+    cursor: pointer;
+}
+
 /* product */
 .product-item{
     background-color: white;
