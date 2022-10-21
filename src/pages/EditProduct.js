@@ -22,9 +22,11 @@ const EditProduct = () => {
 
         if (!isNaN(price_float)) {
             axios.patch(`${baseURL}/${JSON.parse(localStorage.getItem("product_edit"))[0].id}`, {
-                name: name,
-                description: description,
-                price: price_float
+                product: {
+                    name: name,
+                    description: description,
+                    price: price_float
+                },
             })
                 .then(() => {
                     setErrors("Update product sucessfully")

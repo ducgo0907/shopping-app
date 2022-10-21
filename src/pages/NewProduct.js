@@ -16,9 +16,11 @@ const NewProduct = () => {
 
         if (!isNaN(price_float)) {
             axios.post(baseURL, {
-                name: name,
-                description: description,
-                price: price_float
+                product: {
+                    name: name,
+                    description: description,
+                    price: price_float
+                },
             })
                 .then(() => {
                     setErrors("Create product sucessfully")
@@ -27,6 +29,7 @@ const NewProduct = () => {
                 .catch((error) => console.log(error))
         } else {
             setErrors("Price must be a number")
+            console.log("ads")
         }
 
     }

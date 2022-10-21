@@ -19,7 +19,7 @@ const ProductsList = () => {
     }
 
     useEffect(() => {
-        axios.get(baseURL, { headers: { Authorization: "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjYzNDU2ODF9.xT36Q5nIGCf32QtJEXL-nFl00_lYthSTvqgza7-tRH4"}})
+        axios.get(baseURL)
             .then((response) => {
                 setProducts(response.data)
             })
