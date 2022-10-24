@@ -1,49 +1,58 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Dropdown } from "react-bootstrap";
 import Login from "./Login";
 import Register from "./Register";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const baseURL = "http://localhost:3000/authenticate/";
 
 const ModalLogin = () => {
   const [show, setShow] = useState(false);
   const [log, setLog] = useState('login')
-  const [logged, setLogged] = useState(getInitialLoggedStatus)
-  const [user, setUser] = useState({})
+  const [logged, setLogged] = useState(getInitialData("logged_status"))
+  const [user, setUser] = useState(getInitialData("current_user"))
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleLogin = (email, password) => {
+  const handleLogin = (event, email, password) => {
+    event.preventDefault();
     axios.post(baseURL, {
       email: email,
       password: password,
     })
       .then((response) => {
-        console.log(response.data.auth_token)
-        setLogged(response.data.logged_in)
-        localStorage.setItem("logged_status", response.data.logged_in)
-        setShow(false)
+        setLogged(response.data.is_logged);
+        localStorage.setItem("authen_token", response.data.auth_token);
+        localStorage.setItem("logged_status", response.data.is_logged);
+        setShow(false);
         setUser({
           name: response.data.user_name,
           id: response.data.user_id
-        })
+        });
+        localStorage.setItem("current_user", JSON.stringify({
+          name: response.data.user_name,
+          id: response.data.user_id
+        }))
       })
       .catch(error => console.log(error))
   }
 
   const handleLogout = () => {
-    axios.delete(`${baseURL}/${user.id}`)
-      .then(response => {
-        console.log(response)
-        setLogged(false);
-        localStorage.setItem("logged_status", false)
-      })
+    setUser({});
+    setLogged(false);
+    localStorage.setItem("logged_status", false)
+    localStorage.removeItem("authen_token")
+    localStorage.removeItem("current_user")
   }
 
-  function getInitialLoggedStatus() {
-    const saveLoggedStatus = JSON.parse(localStorage.getItem("logged_status"))
+  function getInitialData(name) {
+    const temp = localStorage.getItem(name)
+    var saveLoggedStatus;
+    if (temp !== undefined) {
+      saveLoggedStatus = JSON.parse(temp)
+    }
     return saveLoggedStatus || false
   }
 
@@ -58,22 +67,40 @@ const ModalLogin = () => {
     loginView.display = "none"
   }
   if (logged === true) {
-    // loginButton.display = "none"
+    loginButton.display = "none"
   } else {
     logoutButton.display = "none"
   }
   return (
     <>
-      <div style={logoutButton} onClick={handleLogout}>
-        <div className="login-button">
-          Logout
-        </div>
-      </div>
-      <div style={loginButton}>
-        <div className="login-button" onClick={handleShow}>
-          Login
+      <div className="row">
+        <div className="col-lg-1" style={logoutButton}>
+          <Dropdown>
+            <Dropdown.Toggle variant="light" id="dropdown-basic">
+              {user.name}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link to={`user/${user.id}`}>User Profile</Link>
+              </Dropdown.Item>
+              <Dropdown.Item>Edit profile</Dropdown.Item>
+              <Dropdown.Item>
+                <div style={logoutButton} onClick={handleLogout}>
+                  <div className="login-button">
+                    Logout
+                  </div>
+                </div>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
 
+        <div style={loginButton}>
+          <div className="login-button" onClick={handleShow}>
+            Login
+          </div>
+        </div>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <div className="row">
@@ -87,7 +114,9 @@ const ModalLogin = () => {
             </div>
           </Modal.Header>
           <Modal.Body>
-            <div style={loginView}>
+            <div
+              style={loginView}
+            >
               <Login handleLogin={handleLogin} />
             </div>
             <div style={registerView}>

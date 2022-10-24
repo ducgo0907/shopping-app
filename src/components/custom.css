@@ -60,6 +60,18 @@ body{
     min-height: 900px;
 }
 
+/* User */
+#user-bar{
+    height: 900px;
+    background-color: white;
+    margin-right: 10px;
+}
+
+#user-details{
+    height: 500px;
+    background-color: white;
+}
+
 a{
     justify-content: center;
     align-items: center;

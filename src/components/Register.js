@@ -8,7 +8,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-    const handleLogin = () => {
+    const handleRegister = () => {
         axios.post(baseURL, {
             user: {
                 email: email,
@@ -46,7 +46,7 @@ const Register = () => {
                 className="form-control"
                 onChange={(e) => setPasswordConfirmation(e.target.value)} />
             <br/>
-            <Button variant="primary" onClick={handleLogin}>
+            <Button variant="primary" onClick={handleRegister}>
                 Register
             </Button>
         </div>

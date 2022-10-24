@@ -20,8 +20,8 @@ const ProductsList = () => {
 
     useEffect(() => {
         axios.get(baseURL)
-            .then((response) => {
-                setProducts(response.data)
+        .then((response) => {
+            setProducts(response.data)
             })
     }, [])
 
@@ -35,6 +35,13 @@ const ProductsList = () => {
         navigate(`/show/${id}`)
     }
 
+    const crudDisplay = (product_id) => {
+        let user = JSON.parse(localStorage.getItem("current_user"))
+        if(user == null || user.id !== product_id){
+            return {display: "none"}
+        }
+        return {}
+    }
     return (
         <div className="row">
             {
@@ -46,6 +53,7 @@ const ProductsList = () => {
                         <button
                             className="btn btn-danger btn-product"
                             onClick={(e) => deleteProduct(e, product.id)}
+                            style={crudDisplay(product.user_id)}
                         >
                             Delete
                         </button>
@@ -53,6 +61,7 @@ const ProductsList = () => {
                             to="/edit"
                             className="btn btn-primary btn-product"
                             onClick={(e) => editProduct(e,product.id)}
+                            style={crudDisplay(product.user_id)}
                         >
                             Edit
                         </Link>

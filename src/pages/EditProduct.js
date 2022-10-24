@@ -27,6 +27,10 @@ const EditProduct = () => {
                     description: description,
                     price: price_float
                 },
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("authen_token")
+                }
             })
                 .then(() => {
                     setErrors("Update product sucessfully")
