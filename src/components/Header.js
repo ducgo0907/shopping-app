@@ -1,6 +1,6 @@
 import React from "react";
 import './custom.css'
-import { Nav, Navbar, NavDropdown, Container, InputGroup } from "react-bootstrap";
+import { Nav, Navbar, Container, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ModalLogin from "./ModalLogin";
 
@@ -15,17 +15,6 @@ const Header = () => {
                             <div className="col-lg-3 header-left">
                                 <Link to="/">Home </Link>
                                 <Link to="/new"> NewProduct</Link>
-                                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.2">
-                                        Another action
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item href="#action/3.4">
-                                        Separated link
-                                    </NavDropdown.Item>
-                                </NavDropdown>
                             </div>
                             <InputGroup className="header-middle col-lg-5">
                                 <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />

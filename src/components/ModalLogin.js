@@ -12,8 +12,12 @@ const ModalLogin = () => {
   const [log, setLog] = useState('login')
   const [logged, setLogged] = useState(getInitialData("logged_status"))
   const [user, setUser] = useState(getInitialData("current_user"))
+  const [errors, setErrors] = useState('');
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setErrors('')
+  }
   const handleShow = () => setShow(true);
 
   const handleLogin = (event, email, password) => {
@@ -23,18 +27,29 @@ const ModalLogin = () => {
       password: password,
     })
       .then((response) => {
+        const now = new Date().getTime()
         setLogged(response.data.is_logged);
-        localStorage.setItem("authen_token", response.data.auth_token);
+        let authen_token = {
+          auth_token: response.data.auth_token,
+          expire: now,
+        };
+        localStorage.setItem("authen_token", JSON.stringify(authen_token));
         localStorage.setItem("logged_status", response.data.is_logged);
-        setShow(false);
-        setUser({
-          name: response.data.user_name,
-          id: response.data.user_id
-        });
-        localStorage.setItem("current_user", JSON.stringify({
-          name: response.data.user_name,
-          id: response.data.user_id
-        }))
+        if (response.data.is_logged) {
+          setShow(false);
+          setErrors('');
+          setUser({
+            name: response.data.user_name,
+            id: response.data.user_id
+          });
+          localStorage.setItem("current_user", JSON.stringify({
+            name: response.data.user_name,
+            id: response.data.user_id,
+            expire: now,
+          }))
+        } else {
+          setErrors('Password or email is wrong or valid. Please try again!!')
+        }
       })
       .catch(error => console.log(error))
   }
@@ -42,16 +57,18 @@ const ModalLogin = () => {
   const handleLogout = () => {
     setUser({});
     setLogged(false);
-    localStorage.setItem("logged_status", false)
-    localStorage.removeItem("authen_token")
-    localStorage.removeItem("current_user")
+    localStorage.clear()
   }
 
   function getInitialData(name) {
     const temp = localStorage.getItem(name)
+    const now = new Date()
     var saveLoggedStatus;
-    if (temp !== undefined) {
+    if (temp !== 'undefined' && temp !== null) {
       saveLoggedStatus = JSON.parse(temp)
+      if (name === 'current_user' && now.getTime() - saveLoggedStatus.expire > 1000 * 60 * 60 * 24) {
+        localStorage.clear()
+      }
     }
     return saveLoggedStatus || false
   }
@@ -81,15 +98,12 @@ const ModalLogin = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item>
-                <Link to={`user/${user.id}`}>User Profile</Link>
-              </Dropdown.Item>
-              <Dropdown.Item>Edit profile</Dropdown.Item>
+              <li className="dropdown-item">
+                <Link className="a-dropdown-item" to={`user/${user.id}`}>User Profile</Link>
+              </li>
               <Dropdown.Item>
                 <div style={logoutButton} onClick={handleLogout}>
-                  <div className="login-button">
-                    Logout
-                  </div>
+                  Logout
                 </div>
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -117,7 +131,8 @@ const ModalLogin = () => {
             <div
               style={loginView}
             >
-              <Login handleLogin={handleLogin} />
+              <Login handleLogin={handleLogin}
+                errors={errors} />
             </div>
             <div style={registerView}>
               <Register />

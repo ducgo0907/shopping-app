@@ -3,7 +3,7 @@ import Bar from "../components/Bar";
 import ProductsList from "../components/ProductsList";
 import TitleHome from "../components/TitleHome";
 
-const Home = () => {    
+const Home = () => {
     return (
         <>
             <div className="container">

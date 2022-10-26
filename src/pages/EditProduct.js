@@ -19,6 +19,7 @@ const EditProduct = () => {
 
     const handleSubmit = () => {
         let price_float = parseFloat(price);
+        let authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
 
         if (!isNaN(price_float)) {
             axios.patch(`${baseURL}/${JSON.parse(localStorage.getItem("product_edit"))[0].id}`, {
@@ -29,7 +30,7 @@ const EditProduct = () => {
                 },
             }, {
                 headers: {
-                    Authorization: localStorage.getItem("authen_token")
+                    Authorization: authen_token
                 }
             })
                 .then(() => {

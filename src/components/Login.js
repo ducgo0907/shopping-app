@@ -6,6 +6,7 @@ const Login = (props) => {
     
     return (
         <div className="row">
+            <div className="erorrs">{props.errors}</div>
             <form onSubmit={(event) => props.handleLogin(event, email, password)}>
                 <label htmlFor="emailLogin">Email</label>
                 <input

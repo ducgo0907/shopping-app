@@ -13,6 +13,7 @@ const NewProduct = () => {
 
     const handleSubmit = () => {
         let price_float = parseFloat(price);
+        let authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
 
         if (!isNaN(price_float)) {
             axios.post(baseURL, {
@@ -23,7 +24,7 @@ const NewProduct = () => {
                 },
             },{
                 headers: {
-                    Authorization: localStorage.getItem("authen_token")
+                    Authorization: authen_token
                 }
             })
                 .then(() => {

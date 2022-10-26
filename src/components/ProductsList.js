@@ -32,7 +32,7 @@ const ProductsList = () => {
     }
 
     const showProduct = (id) => {
-        navigate(`/show/${id}`)
+        navigate(`products/show/${id}`)
     }
 
     const crudDisplay = (product_id) => {
