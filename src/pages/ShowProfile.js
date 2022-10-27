@@ -9,8 +9,6 @@ const ShowProfile = () => {
         name: '',
         email: '',
         gender: '',
-        created_at: '',
-        updated_at: '',
     })
     const [day, setDay] = useState(1)
     const [month, setMonth] = useState(1)
@@ -23,11 +21,14 @@ const ShowProfile = () => {
 
     let authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
 
-    const birthday = new Date(year, month, day)
+    let birthday = new Date(year, month, day)
+
+    console.log(user.gender)
 
     const changeUserInfo = (e) => {
         setUser({
             ...user,
+            birthday: birthday,
             [e.target.name]: e.target.value,
         })
     }
@@ -38,7 +39,8 @@ const ShowProfile = () => {
 
         axios.patch(`${baseURL}/${user.id}`, {
             user: {
-                ...user
+                ...user,
+                birthday: birthday,
             }
         }, {
             headers: {
@@ -48,14 +50,13 @@ const ShowProfile = () => {
             .then((response) => {
                 if (response.data.user != null) {
                     setUser(response.data.user)
+                    localStorage.setItem("current_user", JSON.stringify(response.data.user))
                     console.log("Update user successful")
-                }else{
+                } else {
                     console.warn("Update failed")
                 }
             })
     }
-
-    console.log(user)
 
     useEffect(() => {
         axios.get(`${baseURL}/${userId}`, {
@@ -65,9 +66,12 @@ const ShowProfile = () => {
         })
             .then((response) => {
                 setUser(response.data.user)
+                let birthday_user = new Date(response.data.user.birthday);
+                setDay(birthday_user.getDate());
+                setMonth(birthday_user.getMonth());
+                setYear(birthday_user.getFullYear());
             })
     }, [authen_token, userId])
-
     return (
         <>
             <div className="container">
@@ -105,7 +109,7 @@ const ShowProfile = () => {
                                     <div className="col-lg-10">
                                         <div className="row">
                                             <div className="col-lg-4">
-                                                <select defaultValue="Day" className="form-select" onChange={(e) => setDay(e.target.value)}>
+                                                <select value={day || "Day"} className="form-select" onChange={(e) => setDay(e.target.value)}>
                                                     <option>Day</option>
                                                     {days.map((day) => (
                                                         <option key={"day" + day} value={day}>{day}</option>
@@ -113,7 +117,7 @@ const ShowProfile = () => {
                                                 </select>
                                             </div>
                                             <div className="col-lg-4">
-                                                <select defaultValue="Month" className="form-select" onChange={(e) => setMonth(e.target.value)}>
+                                                <select value={month || "Month"} className="form-select" onChange={(e) => setMonth(e.target.value)}>
                                                     <option>Month</option>
                                                     {months.map((month) => (
                                                         <option key={"month" + month} value={month}>{month}</option>
@@ -121,7 +125,7 @@ const ShowProfile = () => {
                                                 </select>
                                             </div>
                                             <div className="col-lg-4">
-                                                <select defaultValue="Year" className="form-select" onChange={(e) => setYear(e.target.value)}>
+                                                <select value={year || "Year"} className="form-select" onChange={(e) => setYear(e.target.value)}>
                                                     <option>Year</option>
                                                     {years.map((year) => (
                                                         <option key={"years" + year} value={year}>{year}</option>
@@ -137,9 +141,21 @@ const ShowProfile = () => {
                                     <div className="col-lg-2">
                                         <label htmlFor="name">Gender:</label>
                                     </div>
-                                    <div className="col-lg-10" onChange={changeUserInfo}>
-                                        <input type="radio" name="gender" value={1} /> Male &nbsp;
-                                        <input type="radio" name="gender" value={0} /> Female
+                                    <div className="col-lg-10">
+                                        <input
+                                            type="radio"
+                                            name="gender"
+                                            value={1}
+                                            onChange={changeUserInfo}
+                                            checked={user.gender === null ? false : user.gender.toString() === '1'}
+                                        /> Male &nbsp;
+                                        <input
+                                            type="radio"
+                                            name="gender"
+                                            value={0}
+                                            onChange={changeUserInfo}
+                                            checked={user.gender === null ? false : user.gender.toString() === '0'}
+                                        /> Female
                                     </div>
                                 </div>
                                 <br />

@@ -21,7 +21,7 @@ const Header = () => {
                                 <button type="button" className="btn btn-outline-primary">Search</button>
                             </InputGroup>
                             <div className="header-right col-lg-4">
-                                <ModalLogin />                                
+                                <ModalLogin />
                             </div>
                         </Nav>
                 </Navbar.Collapse>

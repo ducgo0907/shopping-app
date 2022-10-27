@@ -8,6 +8,7 @@ import NewProduct from '../pages/NewProduct';
 import EditProduct from '../pages/EditProduct';
 import ShowProduct from '../pages/ShowProduct';
 import ShowProfile from '../pages/ShowProfile';
+import Cart from './Cart';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/edit' element={<EditProduct />} />
           <Route path='products/show/:productId' element={<ShowProduct/>} />
           <Route path='/user/:userId' element={<ShowProfile />} />
+          <Route path='/cart' element={<Cart />}/>
         </Routes>
       </Router>
     </>

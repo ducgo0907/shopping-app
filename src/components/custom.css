@@ -46,13 +46,22 @@ body{
     margin-bottom: 5px;
 }
 
+.name-product{
+    color: black;
+    font-weight: bold;
+}
+
+.price-product{
+    color: red;
+}
+
 .btn-product{
     margin: 0px 5px 5px 0px;
 }
 
 /* show product */
 #image-details{
-    height: 700px;
+    height: 500px;
     background-color: white;
 }
 
@@ -64,6 +73,40 @@ body{
     background-color: white;
     margin-right: 2px;
     min-height: 900px;
+}
+
+.name-product-details{
+    font-size: xx-large;
+}
+
+.price-product-details{
+    color: red;
+    font-size: xx-large;
+    height: 100px;
+    width: 50%;
+    background-color: rgb(250, 250, 250);
+}
+
+.amount-product{
+    width: 5%;
+    height: 5%;
+    text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.minus, .plus{
+    height: 30px;
+    width: 30px;
+    border: none;
+}
+
+.button-add-cart{
+    margin-top: 15px;
 }
 
 /* User */

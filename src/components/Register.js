@@ -7,6 +7,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [message, setMessage] = useState('')
 
     const handleRegister = () => {
         axios.post(baseURL, {
@@ -18,12 +19,14 @@ const Register = () => {
         })
             .then((response) => {
                 console.log(response.data.auth_token)
+                setMessage("Register sucessful. Now, you can login.");
             })
             .catch(error => console.log(error))
     }
 
     return (
         <div className="row">
+            <div style={{color: "green"}}>{message}</div>
             <label htmlFor="email">Email</label>
             <input
                 type="text"
