@@ -6,7 +6,9 @@ import { useCookies } from "react-cookie";
 const baseURL = "http://localhost:3000/products"
 
 const ShowProduct = () => {
-    const [product, setProduct] = useState("")
+    const [product, setProduct] = useState({
+        amount: 0
+    })
     const [amount, setAmout] = useState(1)
     const [cookies, setCookies] = useCookies(['listProduct'])
     const { productId } = useParams();
@@ -25,10 +27,17 @@ const ShowProduct = () => {
     }
 
     const addToCart = () => {
-        const obj = { cookies, product }
-        console.log(obj)
-        setCookies('listProduct', obj, { path: '/' }
-        )
+        var listProduct = [];
+        if (cookies.listProduct != null) {
+            cookies.listProduct.forEach(prevProduct => {
+                listProduct.push(prevProduct)
+            })
+        } else {
+            setCookies('listProduct', listProduct, { path: '/' })
+        }
+        listProduct.push(product)
+        setCookies('listProduct', listProduct, { path: '/' })
+        console.log(cookies.listProduct)
     }
 
     return (

@@ -90,61 +90,59 @@ const ModalLogin = () => {
   }
   return (
     <>
-      <div className="row">
-        <div className="col-lg-1" style={logoutButton}>
-          <Dropdown>
-            <Dropdown.Toggle variant="light" id="dropdown-basic">
-              {user.name}
-            </Dropdown.Toggle>
+      <div className="col-lg-1" style={logoutButton}>
+        <Dropdown>
+          <Dropdown.Toggle variant="light" id="dropdown-basic">
+            {user.name}
+          </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <li className="dropdown-item">
-                <Link className="a-dropdown-item" to={`user/${user.id}`}>User Profile</Link>
-              </li>
-              <Dropdown.Item>
-                <div style={logoutButton} onClick={handleLogout}>
-                  Logout
-                </div>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-
-        <div style={loginButton}>
-          <div className="login-button" onClick={handleShow}>
-            Login
-          </div>
-        </div>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <div className="row">
-              <div className="col-lg-12">
-                <Modal.Title>Hello, Login or Register</Modal.Title>
+          <Dropdown.Menu>
+            <li className="dropdown-item">
+              <Link className="a-dropdown-item" to={`user/${user.id}`}>User Profile</Link>
+            </li>
+            <Dropdown.Item>
+              <div style={logoutButton} onClick={handleLogout}>
+                Logout
               </div>
-              <div className="col-lg-12">
-                <Button variant="light" className="button-view" onClick={() => setLog('login')}>Login</Button>
-                <Button variant="light" className="button-view" onClick={() => setLog('register')}>Register</Button>
-              </div>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <div
-              style={loginView}
-            >
-              <Login handleLogin={handleLogin}
-                errors={errors} />
-            </div>
-            <div style={registerView}>
-              <Register />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
+
+      <div style={loginButton}>
+        <div className="login-button" onClick={handleShow}>
+          Login
+        </div>
+      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <div className="row">
+            <div className="col-lg-12">
+              <Modal.Title>Hello, Login or Register</Modal.Title>
+            </div>
+            <div className="col-lg-12">
+              <Button variant="light" className="button-view" onClick={() => setLog('login')}>Login</Button>
+              <Button variant="light" className="button-view" onClick={() => setLog('register')}>Register</Button>
+            </div>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <div
+            style={loginView}
+          >
+            <Login handleLogin={handleLogin}
+              errors={errors} />
+          </div>
+          <div style={registerView}>
+            <Register />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
