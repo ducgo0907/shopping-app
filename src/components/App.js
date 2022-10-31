@@ -14,10 +14,11 @@ import axios from 'axios';
 function App() {
   const [products, setProducts] = useState([])
 
-  let authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
 
-  const searchProduct = (key) => {
-    axios.get("http://localhost:3000/search", {params: {key: key}, headers: {Authorization: authen_token}})
+  const searchProduct = (event, key) => {
+    event.preventDefault();
+    let authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
+    axios.get("http://localhost:3000/search", { params: { key: key }, headers: { Authorization: authen_token } })
       .then(response => {
         console.log(response.data)
         setProducts(response.data)
@@ -29,7 +30,7 @@ function App() {
       <Router>
         <Header searchProduct={searchProduct} />
         <Routes>
-          <Route path='/' element={<Home  searchProducts={products}/>} />
+          <Route path='/' element={<Home searchProducts={products} />} />
           <Route path='/new' element={<NewProduct />} />
           <Route path='/edit' element={<EditProduct />} />
           <Route path='products/show/:productId' element={<ShowProduct />} />

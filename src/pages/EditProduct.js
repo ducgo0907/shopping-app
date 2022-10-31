@@ -10,9 +10,19 @@ const EditProduct = () => {
     const [description, setDescription] = useState(getInitProduct("description"));
     const [price, setPrice] = useState(getInitProduct("price"));
     const [errors, setErrors] = useState([]);
+    const [picture, setPicture] = useState({});
+    const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
 
-    function getInitProduct(property){
+    const uploadPicture = (e) => {
+        setPicture({
+
+            picturePreview: URL.createObjectURL(e.target.files[0]),
+            pictureAsFile: e.target.files[0]
+        });
+    }
+
+    function getInitProduct(property) {
         const editProduct = JSON.parse(localStorage.getItem("product_edit"))
         return editProduct[0][property] || ''
     }
@@ -20,17 +30,19 @@ const EditProduct = () => {
     const handleSubmit = () => {
         let price_float = parseFloat(price);
         let authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
-
+        setDisabled(true);
         if (!isNaN(price_float)) {
             axios.patch(`${baseURL}/${JSON.parse(localStorage.getItem("product_edit"))[0].id}`, {
                 product: {
                     name: name,
                     description: description,
-                    price: price_float
+                    price: price_float,
+                    image: picture.pictureAsFile
                 },
             }, {
                 headers: {
-                    Authorization: authen_token
+                    Authorization: authen_token,
+                    "Content-Type": "multipart/form-data"
                 }
             })
                 .then(() => {
@@ -51,7 +63,9 @@ const EditProduct = () => {
                 <h1 id="create-title">Create new product</h1>
             </div>
             <div className="row">
-                <div className="col-lg-4"></div>
+                <div className="col-lg-4">
+                    <img src={`${picture.picturePreview}`} id="preview-image" alt="" />
+                </div>
                 <div className="col-lg-4">
                     <label htmlFor="name">Name</label>
                     <br />
@@ -83,7 +97,16 @@ const EditProduct = () => {
                         onChange={e => setPrice(e.target.value)}
                     />
                     <br />
-                    <input type="submit" value="Create" className="btn btn-primary" onClick={handleSubmit} />
+                    <label>Image</label>
+                    <br />
+                    <input
+                        type="file"
+                        name="image"
+                        onChange={uploadPicture}
+                        className="image-upload"
+                    />
+                    <br />
+                    <input type="submit" value="Create" className="btn btn-primary" onClick={handleSubmit} disabled={disabled}/>
                 </div>
                 <div className="col-lg-4"></div>
             </div>

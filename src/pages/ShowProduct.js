@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
+const baseURLImage = "https://res.cloudinary.com/dwrjzyqnw/image/upload/v1/rails_upload/"
+
 const baseURL = "http://localhost:3000/products"
 
 const ShowProduct = () => {
@@ -45,7 +47,13 @@ const ShowProduct = () => {
             <br />
             <div className="row" id="wrap-product">
                 <div className="col-lg-3" id="image-details">
-                    Image
+                    <img
+                        src={product.image_data == null ? "" : `${baseURLImage}/${JSON.parse(product.image_data).id}`}
+                        style={product.image_data == null ? { display: "none" } : {}}
+                        alt={product.name}
+                        className="image-show-product"
+                    />
+                    <div className="image-show-product" style={product.image_data != null ? { display: "none" } : {}}></div>
                 </div>
                 <div className="col-lg-1" id="vertical-line"></div>
                 <div className="col-lg-8">

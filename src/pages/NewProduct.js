@@ -9,7 +9,16 @@ const NewProduct = () => {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [errors, setErrors] = useState([]);
+    const [picture, setPicture] = useState({});
     const navigate = useNavigate();
+
+    const uploadPicture = (e) => {
+        setPicture({
+
+            picturePreview: URL.createObjectURL(e.target.files[0]),
+            pictureAsFile: e.target.files[0]
+        });
+    }
 
     const handleSubmit = () => {
         let price_float = parseFloat(price);
@@ -20,11 +29,13 @@ const NewProduct = () => {
                 product: {
                     name: name,
                     description: description,
-                    price: price_float
+                    price: price_float,
+                    image: picture.pictureAsFile,
                 },
-            },{
+            }, {
                 headers: {
-                    Authorization: authen_token
+                    Authorization: authen_token,
+                    "Content-Type": "multipart/form-data"
                 }
             })
                 .then(() => {
@@ -45,7 +56,9 @@ const NewProduct = () => {
                 <h1 id="create-title">Create new product</h1>
             </div>
             <div className="row">
-                <div className="col-lg-4"></div>
+                <div className="col-lg-4">
+                    <img src={`${picture.picturePreview}`} id="preview-image" alt=""/>
+                </div>
                 <div className="col-lg-4">
                     <label htmlFor="name">Name</label>
                     <br />
@@ -67,7 +80,7 @@ const NewProduct = () => {
                         onChange={e => setDescription(e.target.value)}
                     />
                     <br />
-                    <label htmlFor="description">Price</label>
+                    <label htmlFor="Price">Price</label>
                     <br />
                     <input
                         type="text"
@@ -77,11 +90,20 @@ const NewProduct = () => {
                         onChange={e => setPrice(e.target.value)}
                     />
                     <br />
+                    <label htmlFor="image">Image</label>
+                    <br />
+                    <input
+                        type="file"
+                        name="image"
+                        onChange={uploadPicture}
+                        className="image-upload"
+                    />
+                    <br />
                     <input type="submit" value="Create" className="btn btn-primary" onClick={handleSubmit} />
                 </div>
                 <div className="col-lg-4"></div>
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -18,30 +18,32 @@ const Header = (props) => {
                             <Link to="/" className="button-tab">Home </Link>
                             <Link to="/new" className="button-tab"> NewProduct</Link>
                         </div>
-                        <InputGroup className="header-middle col-lg-5">
-                            <input
-                                type="search"
-                                className="form-control rounded"
-                                placeholder="Search"
-                                aria-label="Search"
-                                aria-describedby="search-addon"
-                                value={searchName}
-                                onChange={(e) => setSearchName(e.target.value)}
-                            />
-                            <button
-                                type="button"
-                                className="btn btn-outline-primary"
-                                onClick={() => props.searchProduct(searchName)}
-                            >
-                                Search
-                            </button>
-                        </InputGroup>
+                        <form className="header-middle" onSubmit={(e) => props.searchProduct(e, searchName)}>
+                            <InputGroup className="header-middle col-lg-5">
+                                <input
+                                    type="search"
+                                    className="form-control rounded"
+                                    placeholder="Search"
+                                    aria-label="Search"
+                                    aria-describedby="search-addon"
+                                    value={searchName}
+                                    onChange={(e) => setSearchName(e.target.value)}
+                                />
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-primary"
+                                    onClick={(e) => props.searchProduct(e, searchName)}
+                                >
+                                    Search
+                                </button>
+                            </InputGroup>
+                        </form>
                         <div className="col-lg-4">
                             <div className="header-right row">
                                 <div className="col-lg-12">
                                     <div className="row">
                                         <ModalLogin />
-                                        <div className="col-lg-4" id="shopping-icon">
+                                        <div className="col-lg-7" id="shopping-icon">
                                             <Link to='/cart' className="shopping-link">
                                                 <FaShoppingCart
                                                     size="28px"

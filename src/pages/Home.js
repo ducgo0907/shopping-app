@@ -9,7 +9,10 @@ const baseURL = "http://localhost:3000/"
 const Home = (props) => {
     const [products, setProducts] = useState([]);
 
-    let authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
+    var authen_token;
+    if(localStorage.getItem("authen_token") != null && localStorage.getItem("authen_token") !== "undefined"){
+        authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
+    }
 
     const deleteProduct = (event, id) => {
         axios.delete(`${baseURL}/products/${id}`, {

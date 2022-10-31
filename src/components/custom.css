@@ -99,6 +99,26 @@ body{
     font-weight: bold;
 }
 
+.image-upload{
+    margin: 10px 0px 10px 0px;
+}
+
+#preview-image{
+    width: 400px;
+    height: 350px;
+}
+
+.image-list-product{
+    height: 106px;
+    width: 160px;
+}
+
+.image-show-product{
+    margin: 70px 0px 0px 0px;
+    height: 300px;
+    width: 300px;
+}
+
 .input-range{
     width: 80px;
 }
