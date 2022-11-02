@@ -11,35 +11,54 @@ const ShowProduct = () => {
     const [product, setProduct] = useState({
         amount: 0
     })
-    const [amount, setAmout] = useState(1)
+    const [amount, setAmount] = useState(1)
     const [cookies, setCookies] = useCookies(['listProduct'])
     const { productId } = useParams();
 
     useEffect(() => {
         axios.get(`${baseURL}/${productId}`)
             .then((response) => {
-                setProduct(response.data)
+                let current_product = {
+                    ...response.data,
+                    amount: amount
+                }
+                setProduct(current_product)
             })
-    }, [productId])
+    }, [productId, amount])
 
     const handleAmount = () => {
         if (amount > 1) {
-            setAmout(amount - 1)
+            setAmount(amount - 1)
         }
     }
 
     const addToCart = () => {
         var listProduct = [];
+        let d = new Date();
+        var isDuplicated = false;
+
+        d.setTime(d.getTime() + (1000 * 60 * 60 * 24 * 30))
         if (cookies.listProduct != null) {
             cookies.listProduct.forEach(prevProduct => {
+                console.log(prevProduct.id)
+                if (prevProduct.id === product.id) {
+                    prevProduct.amount += amount
+                    isDuplicated = true
+                }
                 listProduct.push(prevProduct)
             })
         } else {
-            setCookies('listProduct', listProduct, { path: '/' })
+            setCookies('listProduct', listProduct, { path: '/', expires: d })
         }
-        listProduct.push(product)
-        setCookies('listProduct', listProduct, { path: '/' })
-        console.log(cookies.listProduct)
+
+        if (isDuplicated) {
+            console.log("hi")
+            isDuplicated = false;
+        } else {
+            listProduct.push(product)
+        }
+        setCookies('listProduct', listProduct, { path: '/', expires: d })
+        console.log("Add to cart successfully")
     }
 
     return (
@@ -88,11 +107,11 @@ const ShowProduct = () => {
                                     type="number"
                                     value={amount}
                                     className="amount-product"
-                                    onChange={(e) => setAmout(parseInt(e.target.value))}
+                                    onChange={(e) => setAmount(parseInt(e.target.value))}
                                 />
                                 <button
                                     className="plus"
-                                    onClick={() => setAmout(amount + 1)}
+                                    onClick={() => setAmount(amount + 1)}
                                 >
                                     +
                                 </button>

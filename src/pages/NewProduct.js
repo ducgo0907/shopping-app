@@ -45,9 +45,15 @@ const NewProduct = () => {
                 .catch((error) => console.log(error))
         } else {
             setErrors("Price must be a number")
-            console.log("ads")
         }
 
+    }
+
+    let pictureView = {}
+
+    if (!picture.picturePreview) {
+        console.log("2")
+        pictureView.display = "none"
     }
     return (
         <div className="container">
@@ -57,7 +63,7 @@ const NewProduct = () => {
             </div>
             <div className="row">
                 <div className="col-lg-4">
-                    <img src={`${picture.picturePreview}`} id="preview-image" alt=""/>
+                    <img src={`${picture.picturePreview}`} id="preview-image" alt="" style={pictureView}/>
                 </div>
                 <div className="col-lg-4">
                     <label htmlFor="name">Name</label>

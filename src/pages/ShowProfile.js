@@ -50,7 +50,13 @@ const ShowProfile = () => {
             .then((response) => {
                 if (response.data.user != null) {
                     setUser(response.data.user)
-                    localStorage.setItem("current_user", JSON.stringify(response.data.user))
+                    const expire = JSON.parse(localStorage.getItem("current_user")).expire
+
+                    var current_user = {
+                        ...response.data.user,
+                        expire: expire
+                    }
+                    localStorage.setItem("current_user", JSON.stringify(current_user))
                     console.log("Update user successful")
                 } else {
                     console.warn("Update failed")
@@ -117,7 +123,7 @@ const ShowProfile = () => {
                                                 </select>
                                             </div>
                                             <div className="col-lg-4">
-                                                <select value={month || "Month"} className="form-select" onChange={(e) => setMonth(e.target.value)}>
+                                                <select value={month + 1 || "Month"} className="form-select" onChange={(e) => setMonth(e.target.value)}>
                                                     <option>Month</option>
                                                     {months.map((month) => (
                                                         <option key={"month" + month} value={month}>{month}</option>

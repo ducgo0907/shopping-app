@@ -66,8 +66,9 @@ const ModalLogin = () => {
     var saveLoggedStatus;
     if (temp !== 'undefined' && temp !== null) {
       saveLoggedStatus = JSON.parse(temp)
-      if (name === 'current_user' && now.getTime() - saveLoggedStatus.expire > 1000 * 60 * 60 * 12) {
+      if (name === 'current_user' && now.getTime() - saveLoggedStatus.expire > 1000 * 60 * 60 * 10) {
         localStorage.clear()
+        console.log("Hello")
       }
     }
     return saveLoggedStatus || false

@@ -119,6 +119,20 @@ body{
     width: 300px;
 }
 
+.image-cart{
+    min-height: 100px;
+    min-width: 100px;
+    max-height: 120px;
+    max-width: 120px;
+}
+
+.product-list-cart{
+    margin: 0px 0px 20px 0px;
+    height: auto;
+    background-color: white;
+    padding: 5px 0px 5px 0px;
+}
+
 .input-range{
     width: 80px;
 }
@@ -150,6 +164,20 @@ body{
     text-align: center;
 }
 
+.amount-product-cart{
+    width: 15%;
+    height: 5%;
+    text-align: center;
+}
+
+.shop-name{
+    padding-bottom: 10px;
+}
+
+.text-product-cart{
+    margin: 22px 0px 0px 0px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -170,7 +198,7 @@ input::-webkit-inner-spin-button {
 
 #list-products-wrap{
     height: auto;
-    background-color: white;
+    /* background-color: white; */
 }
 
 /* User */

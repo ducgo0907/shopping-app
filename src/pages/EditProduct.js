@@ -16,7 +16,6 @@ const EditProduct = () => {
 
     const uploadPicture = (e) => {
         setPicture({
-
             picturePreview: URL.createObjectURL(e.target.files[0]),
             pictureAsFile: e.target.files[0]
         });
@@ -56,15 +55,22 @@ const EditProduct = () => {
 
     }
 
+    let pictureView = {}
+
+    if(!picture.picturePreview){
+        console.log("2")
+        pictureView.display = "none"
+    }
+
     return (
         <div className="container">
             <div className="col-lg-12">{errors}</div>
             <div className="col-lg-12">
-                <h1 id="create-title">Create new product</h1>
+                <h1 id="create-title">Edit product</h1>
             </div>
             <div className="row">
                 <div className="col-lg-4">
-                    <img src={`${picture.picturePreview}`} id="preview-image" alt="" />
+                    <img src={`${picture.picturePreview}`} id="preview-image" alt="" style={pictureView}/>
                 </div>
                 <div className="col-lg-4">
                     <label htmlFor="name">Name</label>
@@ -106,7 +112,7 @@ const EditProduct = () => {
                         className="image-upload"
                     />
                     <br />
-                    <input type="submit" value="Create" className="btn btn-primary" onClick={handleSubmit} disabled={disabled}/>
+                    <input type="submit" value="Save" className="btn btn-primary" onClick={handleSubmit} disabled={disabled}/>
                 </div>
                 <div className="col-lg-4"></div>
             </div>
