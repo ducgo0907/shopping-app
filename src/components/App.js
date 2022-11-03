@@ -10,6 +10,9 @@ import ShowProduct from '../pages/ShowProduct';
 import ShowProfile from '../pages/ShowProfile';
 import Cart from './Cart';
 import axios from 'axios';
+import ListShop from '../pages/ListShop';
+import NewShop from '../pages/NewShop';
+import ShowShop from '../pages/ShowShop';
 
 function App() {
   const [products, setProducts] = useState([])
@@ -36,6 +39,9 @@ function App() {
           <Route path='products/show/:productId' element={<ShowProduct />} />
           <Route path='/user/:userId' element={<ShowProfile />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/shops/' element={<ListShop />} />
+          <Route path='/shops/create' element={<NewShop />} />
+          <Route path="/shops/:shopId" element={<ShowShop />} />
         </Routes>
       </Router>
     </>

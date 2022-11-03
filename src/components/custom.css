@@ -201,6 +201,16 @@ input::-webkit-inner-spin-button {
     /* background-color: white; */
 }
 
+#payment-wrap{
+    margin: 46px 0px 0px 10px;
+}
+
+.payment-bar{
+    margin-bottom: 10px;
+    height: auto;
+    background-color: white;
+}
+
 /* User */
 #user-bar{
     height: 900px;
@@ -237,6 +247,24 @@ a{
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+/* Shop */
+.icon{
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 50%;
+}
+
+.header-shop{
+    background-color: white;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.list-shop{
+    background-color: white;
+    margin: 5px 0px 5px 0px;
 }
 
 /* errors */

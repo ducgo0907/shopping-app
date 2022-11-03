@@ -109,10 +109,11 @@ const ModalLogin = () => {
           </Dropdown.Menu>
         </Dropdown>
       </div>
-
-      <div style={loginButton}>
-        <div className="login-button" onClick={handleShow}>
-          Login
+      <div className="col-lg-2">
+        <div style={loginButton}>
+          <div className="login-button" onClick={handleShow}>
+            Login
+          </div>
         </div>
       </div>
       <Modal show={show} onHide={handleClose}>

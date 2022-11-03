@@ -1,4 +1,4 @@
-import React, { } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { FaTrash } from "react-icons/fa";
 
@@ -7,6 +7,7 @@ const baseURLImage = "https://res.cloudinary.com/dwrjzyqnw/image/upload/v1/rails
 
 const Cart = () => {
     const [cookies, setCookies] = useCookies(['listProduct'])
+    const [total, setTotal] = useState(0);
 
     const handleAmount = (event, action, id) => {
         let d = new Date();
@@ -38,10 +39,17 @@ const Cart = () => {
         setCookies('listProduct', listProduct, { path: '/', expires: d })
     }
 
+    useEffect(() => {
+        setTotal(cookies.listProduct.reduce((total, product) => {
+            return total + product.price * product.amount
+        }, 0));
+        console.log(total)
+    }, [cookies, total])
+
     return (
         <div className="container">
             <div className="row">
-                <div className="col-lg-10">
+                <div className="col-lg-9">
                     <div id="title-cart">
                         <h2>Cart</h2>
                     </div>
@@ -106,8 +114,34 @@ const Cart = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-2">
-
+                <div className="col-lg-2" id="payment-wrap">
+                    <div className="row">
+                        <div className="col-lg-12 payment-bar">
+                            Address
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-lg-12 payment-bar">
+                            Promotion
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-lg-12 payment-bar">
+                            <div>
+                                Total Money: {total + "$"}
+                            </div>
+                            <div>
+                                Promotion money:
+                            </div>
+                            <hr />
+                            Real Money:
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <button className="btn btn-danger col-lg-12">Check out</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div >
