@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { FaPlus } from "react-icons/fa";
 
 const baseURLImage = "https://res.cloudinary.com/dwrjzyqnw/image/upload/v1/rails_upload/"
+const defaultImage = "https://res.cloudinary.com/dwrjzyqnw/image/upload/v1667469352/rails_upload/74827_x9ytee.png"
 
-const baseURL = "http://localhost:3000/products"
+const baseURL = "http://localhost:3000"
 
 const ShowProduct = () => {
     const [product, setProduct] = useState({
         amount: 0
     })
     const [amount, setAmount] = useState(1)
+    const [shop, setShop] = useState({})
     const [cookies, setCookies] = useCookies(['listProduct'])
     const { productId } = useParams();
 
     useEffect(() => {
-        axios.get(`${baseURL}/${productId}`)
+        axios.get(`${baseURL}/products/${productId}`)
             .then((response) => {
                 let current_product = {
                     ...response.data,
                     amount: amount
                 }
                 setProduct(current_product)
+                axios.get(`${baseURL}/shops/${response.data.shop_id}`)
+                    .then(response => {
+                        setShop(response.data.shop)
+                    })
             })
     }, [productId, amount])
 
@@ -40,12 +47,18 @@ const ShowProduct = () => {
         d.setTime(d.getTime() + (1000 * 60 * 60 * 24 * 30))
         if (cookies.listProduct != null) {
             cookies.listProduct.forEach(prevProduct => {
-                console.log(prevProduct.id)
                 if (prevProduct.id === product.id) {
                     prevProduct.amount += amount
                     isDuplicated = true
                 }
-                listProduct.push(prevProduct)
+                listProduct.push({
+                    id: prevProduct.id,
+                    name: prevProduct.name,
+                    image_data: prevProduct.image_data,
+                    amount: prevProduct.amount,
+                    shop_id: prevProduct.shop_id,
+                    price: prevProduct.price
+                })
             })
         } else {
             setCookies('listProduct', listProduct, { path: '/', expires: d })
@@ -55,7 +68,14 @@ const ShowProduct = () => {
             console.log("hi")
             isDuplicated = false;
         } else {
-            listProduct.push(product)
+            listProduct.push({
+                id: product.id,
+                name: product.name,
+                image_data: product.image_data,
+                amount: product.amount,
+                shop_id: product.shop_id,
+                price: product.price
+            })
         }
         setCookies('listProduct', listProduct, { path: '/', expires: d })
         console.log("Add to cart successfully")
@@ -74,8 +94,8 @@ const ShowProduct = () => {
                     />
                     <div className="image-show-product" style={product.image_data != null ? { display: "none" } : {}}></div>
                 </div>
-                <div className="col-lg-1" id="vertical-line"></div>
-                <div className="col-lg-8">
+                <div className="col-lg-1 vertical-line-left"></div>
+                <div className="col-lg-5 vertical-line-right">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="name-product-details">
@@ -124,6 +144,34 @@ const ShowProduct = () => {
                                 onClick={addToCart}
                             >
                                 Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-lg-3">
+                    <div className="row" id="wrap-product-shop-details">
+                        <div className="col-lg-2">
+                            <img src={shop.image_data != null
+                                ? `${baseURLImage}/${JSON.parse(shop.image_data).id}`
+                                : `${defaultImage}`}
+                                alt="" className="icon-shop" />
+                        </div>
+                        <div className="col-lg-10">
+                            <div className="text-shop">
+                                {shop.name}
+                            </div>
+                        </div>
+                        <div className="space-shop-details" />
+                        <div className="col-lg-6">
+                            <Link to={`/shops/${shop.id}`}>
+                                <button className="btn btn-light">
+                                    See Shop
+                                </button>
+                            </Link>
+                        </div>
+                        <div className="col-lg-6">
+                            <button className="btn btn-light">
+                                <FaPlus /> Follow
                             </button>
                         </div>
                     </div>

@@ -6,6 +6,7 @@ const baseURL = "http://localhost:3000/";
 
 const NewShop = () => {
     const [name, setName] = useState('')
+    const [disabled, setDisabled] = useState(false)
     const [picture, setPicture] = useState({});
 
     const navigate = useNavigate()
@@ -21,6 +22,7 @@ const NewShop = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         let authen_token = JSON.parse(localStorage.getItem("authen_token")).auth_token
+        setDisabled(true)
         axios.post(`${baseURL}/shops`, {
             shop: {
                 name: name,
@@ -65,10 +67,13 @@ const NewShop = () => {
                                         className="image-upload"
                                     />
                                     <br />
-                                    <button
+                                    <input
                                         className="btn btn-primary"
                                         onClick={(e) => handleSubmit(e)}
-                                    >Submit</button>
+                                        value="Submit"
+                                        disabled={disabled}
+                                        type="submit"
+                                    />
                                 </form>
                             </div>
                             <div className="col-lg-3"></div>

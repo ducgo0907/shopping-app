@@ -16,7 +16,6 @@ const Header = (props) => {
                     <Nav className="header">
                         <div className="col-lg-3 header-left">
                             <Link to="/" className="button-tab">Home </Link>
-                            <Link to="/new" className="button-tab"> NewProduct</Link>
                             <Link to="/shops" className="button-tab"> My Shop</Link>
                         </div>
                         <form className="header-middle" onSubmit={(e) => props.searchProduct(e, searchName)}>

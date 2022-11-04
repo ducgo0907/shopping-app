@@ -9,9 +9,11 @@ const Cart = () => {
     const [cookies, setCookies] = useCookies(['listProduct'])
     const [total, setTotal] = useState(0);
 
+    let d = new Date();
+    d.setTime(d.getTime() + (1000 * 60 * 60 * 24 * 30))
+
     const handleAmount = (event, action, id) => {
-        let d = new Date();
-        d.setTime(d.getTime() + (1000 * 60 * 60 * 24 * 30))
+
         var listProduct = cookies.listProduct.map((product) => {
             if (product.id === id) {
                 switch (action) {
@@ -37,6 +39,11 @@ const Cart = () => {
         })
         listProduct = listProduct.filter(product => product != null)
         setCookies('listProduct', listProduct, { path: '/', expires: d })
+    }
+
+    const removeItemFromCookies = (id) => {
+        var listProduct = cookies.listProduct.filter(product => product.id !== id);
+        setCookies('listProduct', listProduct, { path: '/', expires: d });
     }
 
     useEffect(() => {
@@ -106,7 +113,9 @@ const Cart = () => {
                                     </div>
                                     <div className="col-lg-1">
                                         <div className="text-product-cart">
-                                            <FaTrash />
+                                            <FaTrash
+                                                onClick={() => removeItemFromCookies(product.id)}
+                                            />
                                         </div>
                                     </div>
                                 </div>

@@ -13,9 +13,15 @@ const ListShop = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get(`${baseURL}/shops`)
+        let user = JSON.parse(localStorage.getItem("current_user"))
+        axios.get(`${baseURL}/shops`, {
+            params:{
+                id: user.id
+            }
+        })
             .then((response) => {
                 setShops(response.data)
+                console.log(response.data)
             })
     }, [])
 
@@ -26,7 +32,7 @@ const ListShop = () => {
     let listView = {}
     let noficationView = {}
 
-    if (!shops) {
+    if (shops.length === 0) {
         listView.display = "none";
     } else {
         noficationView.display = "none";

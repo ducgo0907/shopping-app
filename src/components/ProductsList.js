@@ -13,12 +13,12 @@ const ProductsList = (props) => {
     }
 
     const showProduct = (id) => {
-        navigate(`products/show/${id}`)
+        navigate(`/products/show/${id}`)
     }
 
     const crudDisplay = (product_id) => {
         let user = JSON.parse(localStorage.getItem("current_user"))
-        if (user == null || user.id !== product_id) {
+        if (user == null || !user.shop_id.includes(product_id)) {
             return { display: "none" }
         }
         return {}
@@ -44,7 +44,7 @@ const ProductsList = (props) => {
                         <button
                             className="btn btn-danger btn-product"
                             onClick={(e) => props.deleteProduct(e, product.id)}
-                            style={crudDisplay(product.user_id)}
+                            style={crudDisplay(product.shop_id)}
                         >
                             Delete
                         </button>
@@ -52,7 +52,7 @@ const ProductsList = (props) => {
                             to="/edit"
                             className="btn btn-primary btn-product"
                             onClick={(e) => editProduct(e, product.id)}
-                            style={crudDisplay(product.user_id)}
+                            style={crudDisplay(product.shop_id)}
                         >
                             Edit
                         </Link>

@@ -40,12 +40,14 @@ const ModalLogin = () => {
           setErrors('');
           setUser({
             name: response.data.user_name,
-            id: response.data.user_id
+            id: response.data.user_id,
+            shop_id: response.data.shop_id
           });
           localStorage.setItem("current_user", JSON.stringify({
             name: response.data.user_name,
             id: response.data.user_id,
             expire: now,
+            shop_id: response.data.shop_id
           }))
         } else {
           setErrors('Password or email is wrong or valid. Please try again!!')

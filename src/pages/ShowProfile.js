@@ -23,8 +23,6 @@ const ShowProfile = () => {
 
     let birthday = new Date(year, month, day)
 
-    console.log(user.gender)
-
     const changeUserInfo = (e) => {
         setUser({
             ...user,
@@ -54,7 +52,8 @@ const ShowProfile = () => {
 
                     var current_user = {
                         ...response.data.user,
-                        expire: expire
+                        expire: expire,
+                        shop_id: response.data.shop_id
                     }
                     localStorage.setItem("current_user", JSON.stringify(current_user))
                     console.log("Update user successful")

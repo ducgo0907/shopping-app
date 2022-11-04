@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProductsList from "../components/ProductsList";
+import { FaPlusCircle } from 'react-icons/fa'
 
 const baseURL = "http://localhost:3000/shops";
 const baseURLImage = "https://res.cloudinary.com/dwrjzyqnw/image/upload/v1/rails_upload/"
@@ -21,6 +22,10 @@ const ShowShop = () => {
             })
     }, [shopId, setShop, setProducts])
 
+    const handleCreateProduct = () => {
+        localStorage.setItem("current_shop", JSON.stringify(shop))
+    }
+
     return (
         <div className="container">
             <div className="row">
@@ -34,6 +39,17 @@ const ShowShop = () => {
                             </div>
                             <div className="col-lg-4">
                                 <h3>{shop.name}</h3>
+                            </div>
+                            <div className="col-lg-7">
+                                <button
+                                    style={{ float: "right", marginTop: "20px" }}
+                                    className="btn btn-primary"
+                                    onClick={handleCreateProduct}
+                                >
+                                    <Link to="/new" style={{ color: "white"}}>
+                                        Add Product <FaPlusCircle />
+                                    </Link>
+                                </button>
                             </div>
                         </div>
                         <div className="row">
@@ -52,9 +68,9 @@ const ShowShop = () => {
 
                 <div className="col-lg-12">
                     <div className="list-products">
-
                         <div className="row">
-                            <div className="col-lg-10">
+                            <div className="col-lg-1"></div>
+                            <div className="col-lg-12">
                                 <ProductsList
                                     products={products}
                                 />
